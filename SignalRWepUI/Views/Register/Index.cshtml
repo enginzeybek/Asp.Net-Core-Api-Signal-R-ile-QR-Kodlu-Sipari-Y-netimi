@@ -1,0 +1,52 @@
+﻿@model RegisterDto
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>E&Z Restoran Kayıt</title>
+	<!-- Mobile Specific Metas -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<!-- Font-->
+	<link rel="stylesheet" type="text/css" href="~/colorlib-regform-32/css/nunito-font.css">
+	<!-- Main Style Css -->
+	<link rel="stylesheet" href="~/colorlib-regform-32/css/style.css" />
+</head>
+<body class="form-v6">
+	<div class="page-content">
+		<div class="form-v6-content">
+			<div class="form-left">
+				<img src="~/colorlib-regform-32/images/Sauce1.jpg" alt="form" style="width:480px; height:580px">
+			</div>
+			<form class="form-detail" method="post">
+				<h2>Yeni Kullanıcı Kaydı</h2>
+				<div class="form-row">
+					<input type="text" asp-for="Name" id="Name" class="input-text"
+						   placeholder="Adınız"  required>
+				</div>
+				<div class="form-row">
+					<input type="text" asp-for="Surname" id="Surname" class="input-text"
+						   placeholder="Soyadınız"  required>
+				</div>
+				<div class="form-row">
+					<input type="text" asp-for="UserName" id="UserName" class="input-text"
+						   placeholder="Kullanıcı Adınız"  required>
+				</div>
+				<div class="form-row">
+					<input type="text" asp-for="Mail" id="Mail" class="input-text"
+						   placeholder="Mail"  required pattern="[^@@]+@@[^@@]+.[a-zA-Z]{2,6}">
+				</div>
+				<div class="form-row">
+					<input type="password" asp-for="Password" id="Password" class="input-text"
+						   placeholder="Şifreniz"  required>
+				</div>
+				
+				<button class="btn btn-primary">Kayıt Ol</button>
+			</form>
+		</div>
+	</div>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>

@@ -1,0 +1,171 @@
+﻿<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignalR Admin</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="path/to/your/css/file.css">
+</head>
+<body>
+    <div class="main-header">
+
+        <script type="text/javascript">
+            $(document).ready(() => {
+                var connection = new signalR.HubConnectionBuilder()
+                    .withUrl("https://localhost:7277/SignalRHub").build();
+                $("#connstatus").text(connection.state);
+
+                connection.start().then(() => {
+                    console.log("SignalR bağlantısı kuruldu");
+                    $("#connstatus").text(connection.state);
+                    setInterval(() => {
+                        connection.invoke("SendNotification");
+                    }, 1000);
+
+                }).catch((err) => { console.log("SignalR bağlantı hatası: ", err) });
+
+                connection.on("ReceiveNotificationCountByFalse", (value) => {
+                    $("#notificationcountbyfalse").text(value);
+                });
+
+                connection.on("ReceiveNotificationListByFalse", (value) => {
+                    console.log("Bildirimler alındı:", value);
+                    $("#notilist").empty();
+                    for (var i = 0; i < value.length; i++) {
+                        $("#notilist").append(`<a href="#">
+                        <div class="${value[i].type}"><i class="${value[i].icon}"></i></div>
+                        <div class="notif-content">
+                        <span class="block">
+                        ${value[i].description}
+                        </span>
+                        <span class="time">${value[i].date}</span>
+                        </div>
+                        </a>`);
+                    };
+                });
+
+
+            });
+        </script>
+
+        <div class="logo-header">
+            <a href="index.html" class="logo">
+                SignalR Admin
+            </a>
+            <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="#sidebar" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <button class="topbar-toggler more"><i class="fas fa-ellipsis-v"></i></button>
+        </div>
+        <nav class="navbar navbar-header navbar-expand-lg">
+            <div class="container-fluid">
+
+                <form class="navbar-left navbar-form nav-search mr-md-3" action="">
+                    <div class="input-group">
+                        <input type="text" placeholder="Aranacak kelime ..." class="form-control">
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </div>
+                    </div>
+                </form>
+                <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
+                    <li class="nav-item dropdown hidden-caret">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Gelen Mesajlar</a>
+                            <a class="dropdown-item" href="#">Rezervasyonlar</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">İletişim</a>
+                        </div>
+                    </li>
+                    
+                    <li class="nav-item dropdown hidden-caret">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-bell"></i> <!-- düzeltilmiş: la la-bell -> fa fa-bell -->
+                            <span class="notification" id="notificationcountbyfalse"></span>
+                        </a>
+                        <ul class="dropdown-menu notif-box" aria-labelledby="navbarDropdown">
+                            <li>
+                                <div class="dropdown-title">Yeni bildirimleriniz var</div>
+                            </li>
+                            <li>
+                                <div class="notif-center">
+                                    <div id="notilist"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="see-all" href="/Notifications/Index/"><strong>See all notifications</strong> <i class="fas fa-angle-right"></i> </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
+                            <img src="~/Ready-Bootstrap-Dashboard-master/assets/img/profile.jpg" alt="user-img" width="36" class="img-circle">
+                            <span>Hizrian</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li>
+                                <div class="user-box">
+                                    <div class="u-img">
+                                        <img src="~/Ready-Bootstrap-Dashboard-master/assets/img/profile.jpg" alt="user">
+                                    </div>
+                                    <div class="u-text">
+                                        <h4>Admin</h4>
+                                        <p class="text-muted">signalr@gmail.com</p>
+                                        <a href="profile.html" class="btn btn-rounded btn-danger btn-sm">Menüyü Gör</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li><div class="dropdown-divider"></div></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-user"></i> Menü</a></li>
+                            <li><a class="dropdown-item" href="#">Ayarlar</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-envelope"></i> Rezervasyonlar</a></li>
+                            <li><div class="dropdown-divider"></div></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog"></i> Dashboard</a></li>
+                            <li><div class="dropdown-divider"></div></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-power-off"></i> Çıkış Yap</a></li>
+                        </ul>
+                    </li>
+
+                    @* <li class="nav-item dropdown">
+                        <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false"> <img src="~/Ready-Bootstrap-Dashboard-master/assets/img/profile.jpg" alt="user-img" width="36" class="img-circle"><span>Hizrian</span></a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li>
+                                <div class="user-box">
+                                    <div class="u-img"><img src="~/Ready-Bootstrap-Dashboard-master/assets/img/profile.jpg" alt="user"></div>
+                                    <div class="u-text">
+                                        <h4>Admin</h4>
+                                        <p class="text-muted">signalr@gmail.com</p><a href="profile.html" class="btn btn-rounded btn-danger btn-sm">Menüyü Gör</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#"><i class="fas fa-user"></i>Menü</a>
+                            <a class="dropdown-item" href="#">Ayarlar</a>
+                            <a class="dropdown-item" href="#"><i class="fas fa-envelope"></i>Rezervasyonlar</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#"><i class="fas fa-cog"></i>Dashboard</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#"><i class="fas fa-power-off"></i>Çıkış Yap</a>
+                        </ul>
+                    </li> *@
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <!-- JavaScript dosyaları -->
+    <script src="path/to/your/js/file.js"></script>
+</body>
+</html>

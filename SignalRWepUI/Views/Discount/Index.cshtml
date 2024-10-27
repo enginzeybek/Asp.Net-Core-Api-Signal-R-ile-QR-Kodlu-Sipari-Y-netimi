@@ -1,0 +1,66 @@
+﻿@model List<ResultDiscountDto>
+@{
+	ViewData["Title"] = "Index";
+	Layout = "~/Views/AdminLayout/Index.cshtml";
+	int count = 0;
+}
+
+<div class="content">
+	<div class="container-fluid">
+		<h4 class="page-title">Günün İndirimleri İşlemleri</h4>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="card-header">
+						<div class="card-title">Günün İndirimleri Listesi</div>
+					</div>
+					<div class="card-body">
+						<div class="card-sub">
+							Günün indirimli ürünleri aşağıda yer almaktadır. 
+							Tema bütünlüğü için <strong>iki adet</strong> indirimli ürün seçiniz.
+						</div>
+						<table class="table mt-3">
+							<thead>
+								<tr>
+									<th scope="col">#</th>
+									<th scope="col">Ürün İndirim Başlığı</th>
+									<th scope="col">İndirim Oranı</th>
+									<th scope="col">Durum</th>
+									<th scope="col">Aktif Yap</th>
+									<th scope="col">Pasif Yap</th>
+									<th scope="col">Sil</th>
+									<th scope="col">Güncelle</th>
+								</tr>
+							</thead>
+							<tbody>
+								@if (Model != null)
+								{
+									@foreach (var item in Model)
+									{
+										count++;
+										<tr>
+											<th>@count</th>
+											<td>@item.DiscountTitle</td>
+											<td>@item.Amount</td>
+											<td>@item.Status</td>
+											<td><a href="/Discount/ChangeStatusToTrue/@item.DiscountID" class="btn btn-outline-warning">AKTİF YAP</a></td>
+											<td><a href="/Discount/ChangeStatusToFalse/@item.DiscountID" class="btn btn-outline-dark">PASİF YAP</a></td>
+											<td><a href="/Discount/DeleteDiscount/@item.DiscountID" class="btn btn-outline-danger">SİL</a></td>
+											<td><a href="/Discount/UpdateDiscount/@item.DiscountID" class="btn btn-outline-success">GÜNCELLE</a></td>
+										</tr>
+									}
+
+								}
+							</tbody>
+						</table>
+						<a href="/Discount/CreateDiscount/" class="btn-outline-primary">Yeni İndirimli Ürün Girişi</a>
+					</div>
+				</div>
+
+
+			</div>
+
+		</div>
+	</div>
+</div>
+

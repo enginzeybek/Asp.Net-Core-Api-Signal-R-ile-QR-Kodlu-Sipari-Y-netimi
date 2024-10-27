@@ -1,0 +1,62 @@
+﻿@model UserEditDto
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="content">
+	<div class="container-fluid">
+		<h4 class="page-title">Profil Ayarları</h4>
+		<div class="row">
+			<div class="col-md-12">
+				<form method="post">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">Şifre ve Bilgi Güncelleme Sayfası</div>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								<label for="Name">Adınızı Giriniz</label>
+								<input type="text" class="form-control" asp-for="Name" id="Name">
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								<label for="SurName">Soyadınızı Giriniz</label>
+								<input type="text" class="form-control" asp-for="SurName" id="SurName">
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								<label for="Mail">Mailinizi Giriniz</label>
+								<input type="email" class="form-control" asp-for="Mail" id="Mail">
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								<label for="UserName">Kullanıcı Adınızı Giriniz</label>
+								<input type="text" class="form-control" asp-for="UserName" id="UserName">
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								<label for="Password">Şifrenizi Giriniz</label>
+								<input type="password" class="form-control" asp-for="Password" id="Password">
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="form-group">
+								<label for="Password">Şifrenizi Onaylayınız</label>
+								<input type="password" class="form-control" asp-for="ConfirmPassword" id="Password">
+							</div>
+						</div>
+						<div class="card-action">
+							<button class="btn btn-success">Bilgileri Güncelle</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
